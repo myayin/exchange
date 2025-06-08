@@ -31,16 +31,16 @@ public class CurrencyConversionHistory {
     @Column(name = "converted_amount", precision = 18, scale = 4, nullable = false)
     private BigDecimal convertedAmount;
 
-    @Column(name = "conversion_rate", precision = 18, scale = 8, nullable = false)
-    private BigDecimal conversionRate;
+    @Column(name = "exchange_rate", precision = 18, scale = 8, nullable = false)
+    private BigDecimal exchangeRate;
 
-    @Column(name = "transaction_timestamp", nullable = false)
-    private Instant transactionTimestamp;
+    @Column(name = "transaction_date", nullable = false)
+    private Instant transactionDate;
 
     @PrePersist
     public void prePersist() {
-        if (transactionTimestamp == null) {
-            transactionTimestamp = Instant.now();
+        if (transactionDate == null) {
+            transactionDate = Instant.now();
         }
     }
 }
