@@ -9,8 +9,8 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class CurrencyConversionRequest {
-    private BigDecimal sourceAmount;
-    private String sourceCurrency;
-    private String targetCurrency;
+public class CurrencyConversionDto {
+
+    private BigDecimal convertedAmount;
+    private Long transactionId;
 }
