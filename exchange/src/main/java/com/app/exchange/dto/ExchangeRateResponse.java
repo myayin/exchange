@@ -11,9 +11,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @Accessors(chain = true)
-
-
-public class ExchangeRateDto extends BaseResponse implements Serializable {
+public class ExchangeRateResponse extends BaseResponse implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
