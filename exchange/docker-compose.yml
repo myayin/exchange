@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: exchange
+      POSTGRES_PASSWORD: exchange
+      POSTGRES_DB: exchange
+    ports:
+      - "5429:5432"
+
+  app:
+    image: 'exchange:latest'
+    build:
+      context: .
+    container_name: exchange
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+
+    environment:
+      - POSTGRES_USER=exchange
+      - POSTGRES_PASSWORD=exchange
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/exchange
+      - SPRING_DATASOURCE_USERNAME=exchange
+      - SPRING_DATASOURCE_PASSWORD=exchange
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
