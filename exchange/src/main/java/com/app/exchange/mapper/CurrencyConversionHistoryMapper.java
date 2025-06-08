@@ -5,10 +5,11 @@ import com.app.exchange.model.CurrencyConversionHistory;
 
 import java.math.BigDecimal;
 
+
 public class CurrencyConversionHistoryMapper {
     public static CurrencyConversionHistory getCurrencyConversionHistory(CurrencyConversionRequest request, BigDecimal exchangeRate, BigDecimal convertedAmount) {
         return new CurrencyConversionHistory()
-                .setConversionRate(exchangeRate)
+                .setExchangeRate(exchangeRate)
                 .setSourceCurrency(request.getSourceCurrency())
                 .setTargetCurrency(request.getTargetCurrency())
                 .setConvertedAmount(convertedAmount)

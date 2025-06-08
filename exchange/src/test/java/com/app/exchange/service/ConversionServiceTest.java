@@ -23,10 +23,10 @@ public class ConversionServiceTest {
     private ExchangeClient exchangeClient;
 
     @Mock
-    private CurrencyConversionHistoryRepository historyRepository;
+    private CurrencyConversionHistoryRepository repository;
 
     @InjectMocks
-    private ConversionService conversionService;
+    private ConversionService service;
 
     @BeforeEach
     void setUp() {
@@ -52,10 +52,10 @@ public class ConversionServiceTest {
         savedHistory.setTargetCurrency("EUR");
 
         when(exchangeClient.getExchangeRate("USD", "EUR")).thenReturn(mockRate);
-        when(historyRepository.save(Mockito.any())).thenReturn(savedHistory);
+        when(repository.save(Mockito.any())).thenReturn(savedHistory);
 
         // Act
-        CurrencyConversionResponse response = conversionService.convert(request);
+        CurrencyConversionResponse response = service.convert(request);
 
         // Assert
         assertNotNull(response);
@@ -74,7 +74,7 @@ public class ConversionServiceTest {
         when(exchangeClient.getExchangeRate("USD", "EUR")).thenReturn(null);
 
         // Act & Assert
-        ExchangeException ex = assertThrows(ExchangeException.class, () -> conversionService.convert(request));
+        ExchangeException ex = assertThrows(ExchangeException.class, () -> service.convert(request));
 
         assertEquals("EXCHANGE_RATE_NOT_FOUND", ex.getErrorCode());
     }
