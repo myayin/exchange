@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-public class ConversionServiceTest {
+public class SingleConversionServiceTest {
 
     @Mock
     private ExchangeClient exchangeClient;
@@ -26,7 +26,7 @@ public class ConversionServiceTest {
     private CurrencyConversionHistoryRepository repository;
 
     @InjectMocks
-    private ConversionService service;
+    private SingleConversionService service;
 
     @BeforeEach
     void setUp() {
@@ -59,8 +59,8 @@ public class ConversionServiceTest {
 
         // Assert
         assertNotNull(response);
-        assertEquals(expectedConverted, response.getConvertedAmount());
-        assertEquals(1L, response.getTransactionId());
+        assertEquals(expectedConverted, response.getCurrencyConversionDtoList().get(0).getConvertedAmount());
+        assertEquals(1L, response.getCurrencyConversionDtoList().get(0).getTransactionId());
     }
 
     @Test

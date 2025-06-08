@@ -6,7 +6,7 @@ import lombok.experimental.Accessors;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @Setter
@@ -14,7 +14,6 @@ import java.math.BigDecimal;
 public class CurrencyConversionResponse extends BaseResponse implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
+    private List<CurrencyConversionDto> currencyConversionDtoList;
 
-    private BigDecimal convertedAmount;
-    private Long transactionId;
 }
