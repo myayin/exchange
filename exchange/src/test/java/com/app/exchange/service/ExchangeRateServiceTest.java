@@ -1,6 +1,6 @@
 package com.app.exchange.service;
 
-import com.app.exchange.dto.ExchangeRateDto;
+import com.app.exchange.dto.ExchangeRateResponse;
 import com.app.exchange.exception.ExchangeException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ public class ExchangeRateServiceTest {
     }
 
     @Test
-    void exchangeRate_shouldReturnExchangeRateDto_whenExchangeRateExists() throws ExchangeException {
+    void exchangeRate_shouldReturnExchangeRateDto_whenGetExchangeRateExists() throws ExchangeException {
         // Arrange
         String from = "USD";
         String to = "EUR";
@@ -30,7 +30,7 @@ public class ExchangeRateServiceTest {
         when(exchangeClient.getExchangeRate(from, to)).thenReturn(mockRate);
 
         // Act
-        ExchangeRateDto result = exchangeRateService.exchangeRate(from, to);
+        ExchangeRateResponse result = exchangeRateService.getExchangeRate(from, to);
 
         // Assert
         assertNotNull(result);
@@ -38,14 +38,14 @@ public class ExchangeRateServiceTest {
     }
 
     @Test
-    void exchangeRate_shouldThrowExchangeException_whenExchangeRateIsNull() {
+    void exchangeRate_shouldThrowExchangeException_whenGetExchangeRateIsNull() {
         // Arrange
         String from = "USD";
         String to = "EUR";
         when(exchangeClient.getExchangeRate(from, to)).thenReturn(null);
 
         // Act & Assert
-        assertThrows(ExchangeException.class, () -> exchangeRateService.exchangeRate(from, to));
+        assertThrows(ExchangeException.class, () -> exchangeRateService.getExchangeRate(from, to));
     }
 }
 
