@@ -5,18 +5,19 @@ import com.app.exchange.exception.ExchangeException;
 import com.app.exchange.service.ConversionHistoryService;
 import com.app.exchange.service.ConversionStrategyContext;
 import com.app.exchange.service.ExchangeRateService;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping(value = "/v0/currency", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class CurrencyController {
@@ -28,8 +29,13 @@ public class CurrencyController {
     private final ConversionHistoryService conversionHistoryService;
 
     @GetMapping("/exchange-rate")
-    public ResponseEntity<ExchangeRateResponse> exchangeRate(@RequestParam String from,
-                                                             @RequestParam String to) throws ExchangeException {
+    public ResponseEntity<ExchangeRateResponse> exchangeRate(@RequestParam
+                                                             @Schema(description = "Currency code to convert from", example = "USD")
+                                                             String from,
+
+                                                             @RequestParam
+                                                             @Schema(description = "Currency code to convert to", example = "EUR")
+                                                             String to) throws ExchangeException {
         ExchangeRateResponse exchangeRateResponse = exchangeRateService.getExchangeRate(from, to);
         exchangeRateResponse.setResult(Result.success());
         return ResponseEntity.ok(exchangeRateResponse);
@@ -52,8 +58,11 @@ public class CurrencyController {
 
     @GetMapping("/conversion-history")
     public ResponseEntity<CurrencyConversionHistoryResponse> getConversionHistory(
+            @Schema(description = "Transaction ID", example = "1")
             @RequestParam(required = false) Long transactionId,
-            @RequestParam(required = false) LocalDate transactionDate,
+
+            @Schema(description = "Transaction date in ISO format (yyyy-MM-dd)", example = "2025-06-09")
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate transactionDate,
             Pageable pageable //todo:
     ) {
         CurrencyConversionHistoryResponse response = conversionHistoryService.getConversionHistory(transactionId, transactionDate, pageable);

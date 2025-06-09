@@ -3,7 +3,7 @@ package com.app.exchange;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.app")
 public class ExchangeApplication {
 
 	public static void main(String[] args) {
