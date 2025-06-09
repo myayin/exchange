@@ -2,6 +2,7 @@ package com.app.exchange.service;
 
 import com.app.exchange.dto.ExchangeClientResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -26,8 +27,9 @@ public class ExchangeClient {
         );
         return restTemplate.getForObject(url, ExchangeClientResponse.class);
     }
-
+    @Cacheable(value = "exchangeRateCache", key = "#source + '-' + #to")
     public BigDecimal getExchangeRate(String source, String to) {
+        log.info("getExchangeRate: source={}, to={}", source, to);
         ExchangeClientResponse response = fetchRates(source, to);
         if (response != null && response.isSuccess()) {
             return response.getQuotes().get(source.toUpperCase() + to.toUpperCase());
