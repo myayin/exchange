@@ -3,6 +3,7 @@
 ## How to Run
 To build and start the service, run:
 
+cd .\exchange\
 docker-compose up --build
 
 ## API Documentation
