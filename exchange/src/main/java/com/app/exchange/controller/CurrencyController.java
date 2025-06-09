@@ -63,7 +63,7 @@ public class CurrencyController {
 
             @Schema(description = "Transaction date in ISO format (yyyy-MM-dd)", example = "2025-06-09")
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate transactionDate,
-            Pageable pageable //todo:
+            Pageable pageable
     ) {
         CurrencyConversionHistoryResponse response = conversionHistoryService.getConversionHistory(transactionId, transactionDate, pageable);
         response.setResult(Result.success());
