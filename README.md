@@ -16,7 +16,6 @@ There are 42 remaining API requests available for http://apilayer.net/api/live.
 ## How to Run
 To build and start the service, run:
 
-cd .\exchange\
 docker-compose up --build
 
 ## API Documentation
