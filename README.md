@@ -1,5 +1,18 @@
 # Currency Conversion Service
 
+There are 42 remaining API requests available for http://apilayer.net/api/live.
+
+## 🛠️ Used Technologies
+
+- **Java 17** – Main programming language for the application.
+- **Spring Boot** – Framework for building RESTful APIs.
+- **PostgreSQL** – Relational database for data persistence.
+- **Redis** – Used for caching exchange rates.
+- **Swagger / SpringDoc** – API documentation and testing via web UI.
+- **Docker & Docker Compose** – Containerization and service orchestration.
+
+
+
 ## How to Run
 To build and start the service, run:
 
