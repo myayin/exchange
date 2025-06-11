@@ -7,7 +7,9 @@ import com.app.exchange.service.ConversionStrategyContext;
 import com.app.exchange.service.ExchangeRateService;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -63,7 +65,8 @@ public class CurrencyController {
 
             @Schema(description = "Transaction date in ISO format (yyyy-MM-dd)", example = "2025-06-09")
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate transactionDate,
-            Pageable pageable
+            @ParameterObject
+            @PageableDefault Pageable pageable
     ) {
         CurrencyConversionHistoryResponse response = conversionHistoryService.getConversionHistory(transactionId, transactionDate, pageable);
         response.setResult(Result.success());

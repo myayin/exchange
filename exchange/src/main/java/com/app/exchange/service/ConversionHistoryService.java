@@ -27,7 +27,11 @@ public class ConversionHistoryService {
                                                                   Pageable pageable) {
         List<CurrencyConversionHistory> histories;
 
-        if (transactionId != null) {
+        if (transactionId != null && date != null) {
+            Instant start = date.atStartOfDay(ZoneOffset.UTC).toInstant();
+            Instant end = date.plusDays(1).atStartOfDay(ZoneOffset.UTC).toInstant();
+            histories = repository.findByIdAndTransactionDateBetween(transactionId, start, end, pageable);
+        } else if (transactionId != null) {
             histories = repository.findById(transactionId)
                     .map(List::of)
                     .orElse(Collections.emptyList());
