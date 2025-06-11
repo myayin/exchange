@@ -1,6 +1,7 @@
 package com.app.exchange.service;
 
 import com.app.exchange.dto.CurrencyConversionResponse;
+import com.app.exchange.exception.ExchangeException;
 import com.app.exchange.model.CurrencyConversionHistory;
 import com.app.exchange.repository.CurrencyConversionHistoryRepository;
 import org.junit.jupiter.api.Test;
@@ -32,7 +33,7 @@ public class CsvFileConversionServiceTest {
 
 
     @Test
-    void convert_shouldReturnDtos_whenValidCsvProvided() {
+    void convert_shouldReturnDtos_whenValidCsvProvided() throws ExchangeException {
         CurrencyConversionHistory savedHistory = new CurrencyConversionHistory();
         savedHistory.setId(1L);
         savedHistory.setAmount(BigDecimal.valueOf(100));
@@ -56,7 +57,7 @@ public class CsvFileConversionServiceTest {
     }
 
     @Test
-    void convert_shouldSkipInvalidLine_whenLineHasWrongFormat() {
+    void convert_shouldSkipInvalidLine_whenLineHasWrongFormat() throws ExchangeException {
         CurrencyConversionHistory savedHistory = new CurrencyConversionHistory();
         savedHistory.setId(1L);
         savedHistory.setAmount(BigDecimal.valueOf(100));

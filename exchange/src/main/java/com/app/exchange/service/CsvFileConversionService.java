@@ -15,6 +15,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.app.exchange.constant.ResponseCode.E_CSV_NOT_VALID;
+import static com.app.exchange.constant.ResponseCode.E_ONLY_CSV_FILE_VALID;
+
 @Service
 public class CsvFileConversionService extends BaseConversionService implements ConversionStrategy {
 
@@ -29,8 +32,10 @@ public class CsvFileConversionService extends BaseConversionService implements C
     }
 
     @Override
-    public CurrencyConversionResponse convert(Object input) {
+    public CurrencyConversionResponse convert(Object input) throws ExchangeException {
         MultipartFile file = (MultipartFile) input;
+        validateFile(file);
+
         List<CurrencyConversionDto> dtos = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
@@ -51,12 +56,22 @@ public class CsvFileConversionService extends BaseConversionService implements C
                 dtos.add(dto);
             }
         } catch (IOException e) {
-            throw new RuntimeException("Failed to read CSV file", e);
+            throw new ExchangeException(E_CSV_NOT_VALID.name(), e.toString());
         } catch (ExchangeException e) {
             throw new RuntimeException(e);
         }
         return new CurrencyConversionResponse()
                 .setCurrencyConversionDtoList(dtos);
+    }
+
+    private static void validateFile(MultipartFile file) throws ExchangeException {
+        String contentType = file.getContentType();
+        String filename = file.getOriginalFilename();
+
+        if (contentType == null || (!contentType.equals("text/csv") && !contentType.equals("application/vnd.ms-excel"))
+                || (filename != null && !filename.toLowerCase().endsWith(".csv"))) {
+            throw new ExchangeException(E_ONLY_CSV_FILE_VALID.name(), E_ONLY_CSV_FILE_VALID.getMessage());
+        }
     }
 
     private static CurrencyConversionRequest getCurrencyConversionRequest(String line) {
