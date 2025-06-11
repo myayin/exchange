@@ -11,5 +11,8 @@ import java.util.List;
 @Repository
 public interface CurrencyConversionHistoryRepository extends JpaRepository<CurrencyConversionHistory, Long> {
     List<CurrencyConversionHistory> findByTransactionDateBetween(Instant startDate,
-                                                               Instant endDate, Pageable pageable);
+                                                                 Instant endDate, Pageable pageable);
+
+    List<CurrencyConversionHistory> findByIdAndTransactionDateBetween(Long id, Instant startDate,
+                                                                      Instant endDate, Pageable pageable);
 }
